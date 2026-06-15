@@ -13,7 +13,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter_blue_plus/flutter_blue_plus.dart' as ble;
 import 'package:omi/gen/pigeon_communicator.g.dart';
 import 'package:omi/services/bridges/ble_bridge.dart';
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
@@ -40,6 +39,8 @@ import 'package:omi/pages/payments/payment_method_provider.dart';
 import 'package:omi/providers/action_items_provider.dart';
 import 'package:omi/providers/announcement_provider.dart';
 import 'package:omi/providers/app_provider.dart';
+import 'package:omi/services/local_vision/object_announcement_service.dart';
+import 'package:omi/services/local_vision/local_vision_service.dart';
 import 'package:omi/providers/auth_provider.dart';
 import 'package:omi/providers/capture_provider.dart';
 import 'package:omi/providers/connectivity_provider.dart';
@@ -148,6 +149,7 @@ Future _init() async {
   }
 
   await SharedPreferencesUtil.init();
+  await LocalVisionService.instance.initialize();
 
   // TestFlight environment detection — must be after SharedPreferencesUtil.init()
   if (F.env == Environment.prod) {
@@ -168,9 +170,16 @@ Future _init() async {
     }
   }
 
+  if (Env.localOnlyMode) {
+    await AuthService.instance.signInLocalOnly();
+    SharedPreferencesUtil().aiConsentGiven = true;
+    SharedPreferencesUtil().onboardingCompleted = true;
+    debugPrint('LOCAL_ONLY_MODE enabled: using local session and skipping cloud auth bootstrap');
+  }
+
   // DEBUG: Log Firebase Auth state before getIdToken
   print('DEBUG main: Before getIdToken - currentUser=${FirebaseAuth.instance.currentUser?.uid}');
-  bool isAuth = (await AuthService.instance.getIdToken()) != null;
+  bool isAuth = Env.localOnlyMode || (await AuthService.instance.getIdToken()) != null;
   print('DEBUG main: After getIdToken - isAuth=$isAuth, currentUser=${FirebaseAuth.instance.currentUser?.uid}');
   if (isAuth) {
     PlatformManager.instance.analytics.identify();
@@ -193,7 +202,7 @@ Future _init() async {
   };
 
   await CrashlyticsManager.init();
-  if (isAuth) {
+  if (isAuth && !Env.localOnlyMode) {
     PlatformManager.instance.crashReporter.identifyUser(
       FirebaseAuth.instance.currentUser?.email ?? '',
       SharedPreferencesUtil().fullName,
@@ -342,6 +351,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         ChangeNotifierProvider(create: (context) => VoiceRecorderProvider()..checkPendingRecording()),
         ChangeNotifierProvider(create: (context) => LocaleProvider()),
         ChangeNotifierProvider(create: (context) => AnnouncementProvider()),
+        ChangeNotifierProvider.value(value: LocalVisionService.instance),
+        ChangeNotifierProvider.value(value: ObjectAnnouncementService.instance),
         ChangeNotifierProvider(lazy: true, create: (context) => PhoneCallProvider()),
       ],
       builder: (context, child) {

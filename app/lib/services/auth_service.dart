@@ -17,7 +17,6 @@ import 'package:omi/backend/http/api/users.dart';
 import 'package:omi/backend/preferences.dart';
 import 'package:omi/env/env.dart';
 import 'package:omi/utils/logger.dart';
-import 'package:omi/utils/logger.dart';
 
 class AuthService {
   static final AuthService _instance = AuthService._internal();
@@ -27,8 +26,21 @@ class AuthService {
 
   bool isSignedIn() => FirebaseAuth.instance.currentUser != null && !FirebaseAuth.instance.currentUser!.isAnonymous;
 
+  bool isLocalOnlySignedIn() => Env.localOnlyMode && SharedPreferencesUtil().uid.isNotEmpty;
+
   getFirebaseUser() {
     return FirebaseAuth.instance.currentUser;
+  }
+
+  Future<void> signInLocalOnly() async {
+    if (!Env.localOnlyMode) return;
+    SharedPreferencesUtil().uid = 'local-user';
+    if (SharedPreferencesUtil().email.isEmpty) {
+      SharedPreferencesUtil().email = 'local@omi.offline';
+    }
+    if (SharedPreferencesUtil().givenName.isEmpty) {
+      SharedPreferencesUtil().givenName = 'Local';
+    }
   }
 
   /// Google Sign In using the standard google_sign_in package (iOS, Android)
@@ -164,6 +176,10 @@ class AuthService {
 
   Future<String?> getIdToken() async {
     try {
+      if (Env.localOnlyMode) {
+        await signInLocalOnly();
+        return 'local-only-token';
+      }
       if (FirebaseAuth.instance.currentUser == null) {
         Logger.debug('getIdToken: currentUser is null, clearing cached token');
         _clearCachedAuth();
@@ -351,7 +367,14 @@ class AuthService {
     // Use custom token if enabled and available
     if (useCustomToken && customToken != null) {
       Logger.debug('Signing in with Firebase custom token from $provider');
-      return await FirebaseAuth.instance.signInWithCustomToken(customToken);
+      try {
+        return await FirebaseAuth.instance.signInWithCustomToken(customToken);
+      } on FirebaseAuthException catch (e) {
+        if (e.code != 'custom-token-mismatch') {
+          rethrow;
+        }
+        Logger.debug('Custom token audience mismatch; falling back to $provider OAuth credentials');
+      }
     }
 
     // Fallback to OAuth credentials

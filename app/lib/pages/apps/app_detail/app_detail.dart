@@ -413,7 +413,7 @@ class _AppDetailPageState extends State<AppDetailPage> {
         bottom: 6,
       ),
       decoration: BoxDecoration(
-        color: const Color(0xFF1F1F25).withOpacity(0.8),
+        color: const Color(0xFF1F1F25).withValues(alpha: 0.8),
         borderRadius: BorderRadius.circular(16.0),
       ),
       child: Column(
@@ -428,7 +428,7 @@ class _AppDetailPageState extends State<AppDetailPage> {
             final permission = entry.value;
             final isLast = entry.key == permissionItems.length - 1;
             return _buildPermissionItem(permission, isLast);
-          }).toList(),
+          }),
         ],
       ),
     );
@@ -442,13 +442,13 @@ class _AppDetailPageState extends State<AppDetailPage> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
             decoration: BoxDecoration(
-              color: _getPermissionTypeColor(permission.type).withOpacity(0.1),
+              color: _getPermissionTypeColor(permission.type).withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Text(
               permission.type,
               style: TextStyle(
-                color: _getPermissionTypeColor(permission.type).withOpacity(0.8),
+                color: _getPermissionTypeColor(permission.type).withValues(alpha: 0.8),
                 fontSize: 11,
                 fontWeight: FontWeight.w600,
               ),
@@ -502,7 +502,7 @@ class _AppDetailPageState extends State<AppDetailPage> {
         bottom: 6,
       ),
       decoration: BoxDecoration(
-        color: const Color(0xFF1F1F25).withOpacity(0.8),
+        color: const Color(0xFF1F1F25).withValues(alpha: 0.8),
         borderRadius: BorderRadius.circular(16.0),
       ),
       child: Column(
@@ -520,13 +520,13 @@ class _AppDetailPageState extends State<AppDetailPage> {
   }
 
   Widget _buildChatToolChip(ChatTool tool) {
-    final color = Colors.grey;
+    const color = Colors.grey;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      decoration: BoxDecoration(color: color.withOpacity(0.1), borderRadius: BorderRadius.circular(12)),
+      decoration: BoxDecoration(color: color.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(12)),
       child: Text(
         _formatToolName(tool.name),
-        style: TextStyle(color: color, fontSize: 13, fontWeight: FontWeight.w500),
+        style: const TextStyle(color: color, fontSize: 13, fontWeight: FontWeight.w500),
       ),
     );
   }
@@ -569,7 +569,7 @@ class _AppDetailPageState extends State<AppDetailPage> {
               width: 36,
               height: 36,
               margin: const EdgeInsets.all(8),
-              decoration: BoxDecoration(color: Colors.grey.withOpacity(0.3), shape: BoxShape.circle),
+              decoration: BoxDecoration(color: Colors.grey.withValues(alpha: 0.3), shape: BoxShape.circle),
               child: IconButton(
                 padding: EdgeInsets.zero,
                 onPressed: () {
@@ -585,7 +585,7 @@ class _AppDetailPageState extends State<AppDetailPage> {
                   width: 36,
                   height: 36,
                   margin: const EdgeInsets.only(right: 8),
-                  decoration: BoxDecoration(color: Colors.grey.withOpacity(0.3), shape: BoxShape.circle),
+                  decoration: BoxDecoration(color: Colors.grey.withValues(alpha: 0.3), shape: BoxShape.circle),
                   child: IconButton(
                     padding: EdgeInsets.zero,
                     onPressed: chatButtonLoading
@@ -650,7 +650,7 @@ class _AppDetailPageState extends State<AppDetailPage> {
                   width: 36,
                   height: 36,
                   margin: const EdgeInsets.only(right: 8),
-                  decoration: BoxDecoration(color: Colors.grey.withOpacity(0.3), shape: BoxShape.circle),
+                  decoration: BoxDecoration(color: Colors.grey.withValues(alpha: 0.3), shape: BoxShape.circle),
                   child: IconButton(
                     padding: EdgeInsets.zero,
                     icon: const FaIcon(FontAwesomeIcons.gear, size: 16.0, color: Colors.white),
@@ -669,7 +669,7 @@ class _AppDetailPageState extends State<AppDetailPage> {
                           width: 36,
                           height: 36,
                           margin: const EdgeInsets.only(right: 8),
-                          decoration: BoxDecoration(color: Colors.grey.withOpacity(0.3), shape: BoxShape.circle),
+                          decoration: BoxDecoration(color: Colors.grey.withValues(alpha: 0.3), shape: BoxShape.circle),
                           child: IconButton(
                             padding: EdgeInsets.zero,
                             icon: const FaIcon(FontAwesomeIcons.arrowUpFromBracket, size: 16.0, color: Colors.white),
@@ -682,9 +682,8 @@ class _AppDetailPageState extends State<AppDetailPage> {
 
                               // Get the position of the share button for iOS
                               final RenderBox? box = context.findRenderObject() as RenderBox?;
-                              final Rect? sharePositionOrigin = box != null
-                                  ? box.localToGlobal(Offset.zero) & box.size
-                                  : null;
+                              final Rect? sharePositionOrigin =
+                                  box != null ? box.localToGlobal(Offset.zero) & box.size : null;
 
                               await Share.share(
                                 'https://h.omi.me/apps/${app.id}',
@@ -698,32 +697,32 @@ class _AppDetailPageState extends State<AppDetailPage> {
                     ),
               appProvider.isAppOwner
                   ? (isLoading
-                        ? const SizedBox.shrink()
-                        : Container(
-                            width: 36,
-                            height: 36,
-                            margin: const EdgeInsets.only(right: 8),
-                            decoration: BoxDecoration(color: Colors.grey.withOpacity(0.3), shape: BoxShape.circle),
-                            child: IconButton(
-                              padding: EdgeInsets.zero,
-                              icon: const FaIcon(FontAwesomeIcons.edit, size: 16.0, color: Colors.white),
-                              onPressed: () async {
-                                HapticFeedback.mediumImpact();
-                                await showModalBottomSheet(
-                                  context: context,
-                                  shape: const RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(16),
-                                      topRight: Radius.circular(16),
-                                    ),
+                      ? const SizedBox.shrink()
+                      : Container(
+                          width: 36,
+                          height: 36,
+                          margin: const EdgeInsets.only(right: 8),
+                          decoration: BoxDecoration(color: Colors.grey.withValues(alpha: 0.3), shape: BoxShape.circle),
+                          child: IconButton(
+                            padding: EdgeInsets.zero,
+                            icon: const FaIcon(FontAwesomeIcons.edit, size: 16.0, color: Colors.white),
+                            onPressed: () async {
+                              HapticFeedback.mediumImpact();
+                              await showModalBottomSheet(
+                                context: context,
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(16),
+                                    topRight: Radius.circular(16),
                                   ),
-                                  builder: (context) {
-                                    return ShowAppOptionsSheet(app: app);
-                                  },
-                                );
-                              },
-                            ),
-                          ))
+                                ),
+                                builder: (context) {
+                                  return ShowAppOptionsSheet(app: app);
+                                },
+                              );
+                            },
+                          ),
+                        ))
                   : const SizedBox(width: 8),
             ],
           ),
@@ -753,7 +752,7 @@ class _AppDetailPageState extends State<AppDetailPage> {
                           ),
                         ),
                         placeholder: (context, url) => const CircularProgressIndicator(),
-                        errorWidget: (context, url, error) => const Icon(FontAwesomeIcons.circleExclamation),
+                        errorWidget: (context, url, error) => const FaIcon(FontAwesomeIcons.circleExclamation),
                       ),
                       const SizedBox(width: 20),
                       Expanded(
@@ -811,7 +810,7 @@ class _AppDetailPageState extends State<AppDetailPage> {
                                     child: Row(
                                       children: [
                                         if (app.ratingCount > 0) ...[
-                                          const Icon(FontAwesomeIcons.solidStar, size: 11, color: Color(0xFF8B5CF6)),
+                                          const FaIcon(FontAwesomeIcons.solidStar, size: 11, color: Color(0xFF8B5CF6)),
                                           const SizedBox(width: 4),
                                           Text(
                                             '${app.getRatingAvg()} (${app.ratingCount})',
@@ -840,73 +839,73 @@ class _AppDetailPageState extends State<AppDetailPage> {
                                       color: const Color(0xFF35343B),
                                     )
                                   : app.enabled
-                                  ? AnimatedLoadingButton(
-                                      text: 'Disable',
-                                      width: 90,
-                                      height: 32,
-                                      onPressed: () => _toggleApp(app.id, false),
-                                      color: Colors.grey.shade700,
-                                    )
-                                  : (app.isPaid && !app.isUserPaid
-                                        ? AnimatedLoadingButton(
-                                            width: 100,
-                                            height: 32,
-                                            text: "Subscribe",
-                                            onPressed: () async {
-                                              // Track subscribe button clicked
-                                              PlatformManager.instance.analytics.appDetailSubscribeClicked(
-                                                appId: app.id,
-                                                appName: app.name,
-                                              );
-
-                                              if (app.paymentLink != null && app.paymentLink!.isNotEmpty) {
-                                                final uri = Uri.tryParse(app.paymentLink!);
-                                                if (uri == null) {
-                                                  ScaffoldMessenger.of(context).showSnackBar(
-                                                    SnackBar(content: Text(context.l10n.invalidPaymentUrl)),
-                                                  );
-                                                  return;
-                                                }
-                                                _checkPaymentStatus(app.id);
-                                                await _launchUrlSafely(uri);
-                                              } else {
-                                                await _toggleApp(app.id, true);
-                                              }
-                                            },
-                                            color: const Color(0xFF8B5CF6),
-                                          )
-                                        : AnimatedLoadingButton(
-                                            width: 75,
-                                            height: 32,
-                                            text: 'Enable',
-                                            onPressed: () async {
-                                              if (app.worksExternally()) {
-                                                showDialog(
-                                                  context: context,
-                                                  builder: (ctx) {
-                                                    return StatefulBuilder(
-                                                      builder: (ctx, setState) {
-                                                        return ConfirmationDialog(
-                                                          title: context.l10n.dataAccessNotice,
-                                                          description: context.l10n.dataAccessNoticeDescription,
-                                                          onConfirm: () {
-                                                            _toggleApp(app.id, true);
-                                                            Navigator.pop(context);
-                                                          },
-                                                          onCancel: () {
-                                                            Navigator.pop(context);
-                                                          },
-                                                        );
-                                                      },
-                                                    );
-                                                  },
+                                      ? AnimatedLoadingButton(
+                                          text: 'Disable',
+                                          width: 90,
+                                          height: 32,
+                                          onPressed: () => _toggleApp(app.id, false),
+                                          color: Colors.grey.shade700,
+                                        )
+                                      : (app.isPaid && !app.isUserPaid
+                                          ? AnimatedLoadingButton(
+                                              width: 100,
+                                              height: 32,
+                                              text: "Subscribe",
+                                              onPressed: () async {
+                                                // Track subscribe button clicked
+                                                PlatformManager.instance.analytics.appDetailSubscribeClicked(
+                                                  appId: app.id,
+                                                  appName: app.name,
                                                 );
-                                              } else {
-                                                _toggleApp(app.id, true);
-                                              }
-                                            },
-                                            color: const Color(0xFF8B5CF6),
-                                          )),
+
+                                                if (app.paymentLink != null && app.paymentLink!.isNotEmpty) {
+                                                  final uri = Uri.tryParse(app.paymentLink!);
+                                                  if (uri == null) {
+                                                    ScaffoldMessenger.of(context).showSnackBar(
+                                                      SnackBar(content: Text(context.l10n.invalidPaymentUrl)),
+                                                    );
+                                                    return;
+                                                  }
+                                                  _checkPaymentStatus(app.id);
+                                                  await _launchUrlSafely(uri);
+                                                } else {
+                                                  await _toggleApp(app.id, true);
+                                                }
+                                              },
+                                              color: const Color(0xFF8B5CF6),
+                                            )
+                                          : AnimatedLoadingButton(
+                                              width: 75,
+                                              height: 32,
+                                              text: 'Enable',
+                                              onPressed: () async {
+                                                if (app.worksExternally()) {
+                                                  showDialog(
+                                                    context: context,
+                                                    builder: (ctx) {
+                                                      return StatefulBuilder(
+                                                        builder: (ctx, setState) {
+                                                          return ConfirmationDialog(
+                                                            title: context.l10n.dataAccessNotice,
+                                                            description: context.l10n.dataAccessNoticeDescription,
+                                                            onConfirm: () {
+                                                              _toggleApp(app.id, true);
+                                                              Navigator.pop(context);
+                                                            },
+                                                            onCancel: () {
+                                                              Navigator.pop(context);
+                                                            },
+                                                          );
+                                                        },
+                                                      );
+                                                    },
+                                                  );
+                                                } else {
+                                                  _toggleApp(app.id, true);
+                                                }
+                                              },
+                                              color: const Color(0xFF8B5CF6),
+                                            )),
                             ],
                           ),
                         ),
@@ -983,7 +982,7 @@ class _AppDetailPageState extends State<AppDetailPage> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                const Icon(FontAwesomeIcons.circleInfo, color: Colors.grey, size: 18),
+                                const FaIcon(FontAwesomeIcons.circleInfo, color: Colors.grey, size: 18),
                                 const SizedBox(width: 10),
                                 SizedBox(
                                   width: MediaQuery.of(context).size.width * 0.78,
@@ -1004,7 +1003,7 @@ class _AppDetailPageState extends State<AppDetailPage> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                const Icon(FontAwesomeIcons.circleInfo, color: Colors.grey, size: 18),
+                                const FaIcon(FontAwesomeIcons.circleInfo, color: Colors.grey, size: 18),
                                 const SizedBox(width: 10),
                                 SizedBox(
                                   width: MediaQuery.of(context).size.width * 0.78,
@@ -1025,7 +1024,7 @@ class _AppDetailPageState extends State<AppDetailPage> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                const Icon(FontAwesomeIcons.circleExclamation, color: Colors.grey, size: 18),
+                                const FaIcon(FontAwesomeIcons.circleExclamation, color: Colors.grey, size: 18),
                                 const SizedBox(width: 10),
                                 SizedBox(
                                   width: MediaQuery.of(context).size.width * 0.78,
@@ -1049,10 +1048,10 @@ class _AppDetailPageState extends State<AppDetailPage> {
                               bottom: 6,
                             ),
                             decoration: BoxDecoration(
-                              color: const Color(0xFF1F1F25).withOpacity(0.8),
+                              color: const Color(0xFF1F1F25).withValues(alpha: 0.8),
                               borderRadius: BorderRadius.circular(16.0),
                               border: Border.all(
-                                color: setupCompleted ? Colors.green.withOpacity(0.3) : Colors.transparent,
+                                color: setupCompleted ? Colors.green.withValues(alpha: 0.3) : Colors.transparent,
                                 width: 1,
                               ),
                             ),
@@ -1081,8 +1080,8 @@ class _AppDetailPageState extends State<AppDetailPage> {
                                         height: 32,
                                         decoration: BoxDecoration(
                                           color: setupCompleted
-                                              ? Colors.green.withOpacity(0.2)
-                                              : Colors.grey.withOpacity(0.2),
+                                              ? Colors.green.withValues(alpha: 0.2)
+                                              : Colors.grey.withValues(alpha: 0.2),
                                           borderRadius: BorderRadius.circular(8),
                                         ),
                                         child: Center(
@@ -1172,7 +1171,7 @@ class _AppDetailPageState extends State<AppDetailPage> {
                           },
                           trailing: const Padding(
                             padding: EdgeInsets.only(right: 12.0),
-                            child: Icon(FontAwesomeIcons.chevronRight, size: 20, color: Colors.grey),
+                            child: FaIcon(FontAwesomeIcons.chevronRight, size: 20, color: Colors.grey),
                           ),
                           title: const Text(
                             'Integration Instructions',
@@ -1243,7 +1242,7 @@ class _AppDetailPageState extends State<AppDetailPage> {
                                           color: Colors.grey[900],
                                           borderRadius: BorderRadius.circular(12),
                                         ),
-                                        child: const Icon(FontAwesomeIcons.circleExclamation),
+                                        child: const FaIcon(FontAwesomeIcons.circleExclamation),
                                       ),
                                     ),
                                   ),
@@ -1366,7 +1365,7 @@ class _AppDetailPageState extends State<AppDetailPage> {
                                   bottom: 6,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: const Color(0xFF1F1F25).withOpacity(0.8),
+                                  color: const Color(0xFF1F1F25).withValues(alpha: 0.8),
                                   borderRadius: BorderRadius.circular(16.0),
                                 ),
                                 child: Column(
@@ -1375,7 +1374,7 @@ class _AppDetailPageState extends State<AppDetailPage> {
                                   children: [
                                     Row(
                                       children: [
-                                        Text(
+                                        const Text(
                                           'Reviews',
                                           style: TextStyle(
                                             color: Colors.white,
@@ -1397,10 +1396,8 @@ class _AppDetailPageState extends State<AppDetailPage> {
                                     ),
                                     const SizedBox(height: 16),
                                     RecentReviewsSection(
-                                      reviews: app.reviews
-                                          .sorted((a, b) => b.ratedAt.compareTo(a.ratedAt))
-                                          .take(3)
-                                          .toList(),
+                                      reviews:
+                                          app.reviews.sorted((a, b) => b.ratedAt.compareTo(a.ratedAt)).take(3).toList(),
                                       userReview: app.userReview,
                                       app: app,
                                       onReviewUpdated: () {
@@ -1602,7 +1599,7 @@ class RatingDistributionWidget extends StatelessWidget {
               children: List.generate(5, (index) {
                 return Padding(
                   padding: EdgeInsets.only(right: index < 4 ? 4 : 0),
-                  child: Icon(
+                  child: FaIcon(
                     FontAwesomeIcons.solidStar,
                     size: 14,
                     color: index < ratingAvg.round() ? Colors.deepPurple : Colors.grey.shade700,
@@ -1682,8 +1679,8 @@ class _RecentReviewsSectionState extends State<RecentReviewsSection> {
       final userName = widget.userReview?.username.isNotEmpty == true
           ? widget.userReview!.username
           : prefs.fullName.isNotEmpty
-          ? prefs.fullName
-          : prefs.givenName;
+              ? prefs.fullName
+              : prefs.givenName;
 
       final rev = AppReview(
         uid: prefs.uid,
@@ -1802,9 +1799,9 @@ class _RecentReviewsSectionState extends State<RecentReviewsSection> {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Colors.deepPurple.withOpacity(0.1),
+        color: Colors.deepPurple.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.deepPurple.withOpacity(0.3)),
+        border: Border.all(color: Colors.deepPurple.withValues(alpha: 0.3)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1839,7 +1836,7 @@ class _RecentReviewsSectionState extends State<RecentReviewsSection> {
                 },
                 child: Padding(
                   padding: const EdgeInsets.only(right: 8),
-                  child: Icon(
+                  child: FaIcon(
                     FontAwesomeIcons.solidStar,
                     size: 24,
                     color: index < editRating ? Colors.deepPurple : Colors.grey.shade600,
@@ -1859,7 +1856,7 @@ class _RecentReviewsSectionState extends State<RecentReviewsSection> {
               hintText: context.l10n.writeReviewOptional,
               hintStyle: TextStyle(color: Colors.grey.shade500),
               filled: true,
-              fillColor: Colors.black.withOpacity(0.3),
+              fillColor: Colors.black.withValues(alpha: 0.3),
               border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide.none),
               contentPadding: const EdgeInsets.all(12),
               counterStyle: TextStyle(color: Colors.grey.shade500),
@@ -1888,8 +1885,8 @@ class _RecentReviewsSectionState extends State<RecentReviewsSection> {
                     )
                   : Text(
                       widget.userReview == null
-                          ? AppLocalizations.of(context)!.submitReview
-                          : AppLocalizations.of(context)!.updateReview,
+                          ? AppLocalizations.of(context).submitReview
+                          : AppLocalizations.of(context).updateReview,
                     ),
             ),
           ),
@@ -1899,10 +1896,9 @@ class _RecentReviewsSectionState extends State<RecentReviewsSection> {
   }
 
   Widget _buildReviewItem(BuildContext context, AppReview review, {bool isUserReview = false}) {
-    final l10n = AppLocalizations.of(context)!;
-    final displayName = isUserReview
-        ? l10n.yourReview
-        : (review.username.isNotEmpty ? review.username : l10n.anonymousUser);
+    final l10n = AppLocalizations.of(context);
+    final displayName =
+        isUserReview ? l10n.yourReview : (review.username.isNotEmpty ? review.username : l10n.anonymousUser);
     final avatarSeed = review.uid.isNotEmpty ? review.uid : review.username;
 
     return Padding(
@@ -1930,7 +1926,7 @@ class _RecentReviewsSectionState extends State<RecentReviewsSection> {
                         width: 36,
                         height: 36,
                         decoration: BoxDecoration(
-                          color: isUserReview ? Colors.deepPurple.withOpacity(0.2) : Colors.grey.shade800,
+                          color: isUserReview ? Colors.deepPurple.withValues(alpha: 0.2) : Colors.grey.shade800,
                           shape: BoxShape.circle,
                         ),
                         child: Center(
@@ -1978,7 +1974,7 @@ class _RecentReviewsSectionState extends State<RecentReviewsSection> {
                       children: List.generate(5, (index) {
                         return Padding(
                           padding: const EdgeInsets.only(right: 4),
-                          child: Icon(
+                          child: FaIcon(
                             FontAwesomeIcons.solidStar,
                             size: 14,
                             color: index < review.score.round() ? Colors.deepPurple : Colors.grey.shade700,

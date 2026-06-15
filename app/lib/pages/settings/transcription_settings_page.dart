@@ -560,7 +560,7 @@ class _TranscriptionSettingsPageState extends State<TranscriptionSettingsPage> {
 
       // Build the active config (with correct provider based on _useCustomStt)
       final currentConfig = _buildCurrentConfig();
-      final activeConfig = _useCustomStt ? currentConfig : CustomSttConfig(provider: SttProvider.omi);
+      final activeConfig = _useCustomStt ? currentConfig : const CustomSttConfig(provider: SttProvider.omi);
 
       // Omi-hosted engine choice (server-side): pick Parakeet vs the default via transcriptionModel.
       // The backend reads this as stt_service and routes to the self-hosted Parakeet service.
@@ -1213,7 +1213,7 @@ class _TranscriptionSettingsPageState extends State<TranscriptionSettingsPage> {
                               margin: const EdgeInsets.only(left: 8),
                               padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                               decoration: BoxDecoration(
-                                color: Colors.green.withOpacity(0.2),
+                                color: Colors.green.withValues(alpha: 0.2),
                                 borderRadius: BorderRadius.circular(4),
                               ),
                               child: Text(
@@ -1594,9 +1594,9 @@ class _TranscriptionSettingsPageState extends State<TranscriptionSettingsPage> {
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.1),
+              color: Colors.white.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: Colors.white.withOpacity(0.2)),
+              border: Border.all(color: Colors.white.withValues(alpha: 0.2)),
             ),
             child: Row(
               children: [
@@ -1628,9 +1628,9 @@ class _TranscriptionSettingsPageState extends State<TranscriptionSettingsPage> {
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: Colors.green.withOpacity(0.1),
+              color: Colors.green.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: Colors.green.withOpacity(0.3)),
+              border: Border.all(color: Colors.green.withValues(alpha: 0.3)),
             ),
             child: Row(
               children: [
@@ -2053,7 +2053,7 @@ class _TranscriptionSettingsPageState extends State<TranscriptionSettingsPage> {
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                           decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.15),
+                            color: Colors.white.withValues(alpha: 0.15),
                             borderRadius: BorderRadius.circular(4),
                           ),
                           child: Text(context.l10n.modified, style: const TextStyle(color: Colors.white, fontSize: 10)),
@@ -2462,7 +2462,7 @@ class _JsonEditorPageState extends State<_JsonEditorPage> {
                           margin: const EdgeInsets.only(left: 8),
                           padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                           decoration: BoxDecoration(
-                            color: Colors.green.withOpacity(0.2),
+                            color: Colors.green.withValues(alpha: 0.2),
                             borderRadius: BorderRadius.circular(4),
                           ),
                           child: Text(
@@ -2504,7 +2504,7 @@ class _JsonEditorPageState extends State<_JsonEditorPage> {
               margin: const EdgeInsets.only(bottom: 12),
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: Colors.red.shade900.withOpacity(0.3),
+                color: Colors.red.shade900.withValues(alpha: 0.3),
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(color: Colors.red.shade700),
               ),

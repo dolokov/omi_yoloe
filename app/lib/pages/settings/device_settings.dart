@@ -6,7 +6,6 @@ import 'package:flutter/services.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import 'package:omi/backend/preferences.dart';
 import 'package:omi/backend/schema/bt_device/bt_device.dart';
@@ -18,7 +17,6 @@ import 'package:omi/pages/settings/device_diagnostics.dart';
 import 'package:omi/providers/device_provider.dart';
 import 'package:omi/services/devices.dart';
 import 'package:omi/services/services.dart';
-import 'package:omi/utils/analytics/intercom.dart';
 import 'package:omi/utils/l10n_extensions.dart';
 import 'package:omi/utils/other/temp.dart';
 import 'package:omi/widgets/dialog.dart';
@@ -169,7 +167,7 @@ class _DeviceSettingsState extends State<DeviceSettings> {
   }
 
   Widget _buildProfileStyleItem({
-    required IconData icon,
+    required FaIconData icon,
     required String title,
     String? subtitle,
     String? chipValue,
@@ -489,7 +487,7 @@ class _DeviceSettingsState extends State<DeviceSettings> {
                         activeTrackColor: Colors.white,
                         inactiveTrackColor: Colors.grey.shade800,
                         thumbColor: Colors.white,
-                        overlayColor: Colors.white.withOpacity(0.1),
+                        overlayColor: Colors.white.withValues(alpha: 0.1),
                         thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 12, elevation: 2),
                         overlayShape: const RoundSliderOverlayShape(overlayRadius: 24),
                         trackHeight: 6,
@@ -598,7 +596,7 @@ class _DeviceSettingsState extends State<DeviceSettings> {
                         activeTrackColor: Colors.white,
                         inactiveTrackColor: Colors.grey.shade800,
                         thumbColor: Colors.white,
-                        overlayColor: Colors.white.withOpacity(0.1),
+                        overlayColor: Colors.white.withValues(alpha: 0.1),
                         thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 12, elevation: 2),
                         overlayShape: const RoundSliderOverlayShape(overlayRadius: 24),
                         trackHeight: 6,
@@ -679,9 +677,9 @@ class _DeviceSettingsState extends State<DeviceSettings> {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 10),
         decoration: BoxDecoration(
-          color: isSelected ? Colors.white.withOpacity(0.1) : const Color(0xFF2A2A2E),
+          color: isSelected ? Colors.white.withValues(alpha: 0.1) : const Color(0xFF2A2A2E),
           borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: isSelected ? Colors.white.withOpacity(0.5) : Colors.transparent, width: 1),
+          border: Border.all(color: isSelected ? Colors.white.withValues(alpha: 0.5) : Colors.transparent, width: 1),
         ),
         child: Center(
           child: Text(

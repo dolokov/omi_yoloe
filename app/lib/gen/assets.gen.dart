@@ -483,6 +483,51 @@ class $AssetsIntegrationAppLogosGen {
   ];
 }
 
+class $AssetsModelsGen {
+  const $AssetsModelsGen();
+
+  /// File path: assets/models/ram_physical_object_tag_list.txt
+  String get ramPhysicalObjectTagList =>
+      'assets/models/ram_physical_object_tag_list.txt';
+
+  /// Directory path: assets/models/yoloe-26n-seg-pf
+  $AssetsModelsYoloe26nSegPfGen get yoloe26nSegPf =>
+      const $AssetsModelsYoloe26nSegPfGen();
+
+  /// List of all assets
+  List<String> get values => [ramPhysicalObjectTagList];
+}
+
+class $AssetsModelsYoloe26nSegPfGen {
+  const $AssetsModelsYoloe26nSegPfGen();
+
+  /// File path: assets/models/yoloe-26n-seg-pf/fingerprint.pb
+  String get fingerprint => 'assets/models/yoloe-26n-seg-pf/fingerprint.pb';
+
+  /// File path: assets/models/yoloe-26n-seg-pf/labels.json
+  String get labels => 'assets/models/yoloe-26n-seg-pf/labels.json';
+
+  /// File path: assets/models/yoloe-26n-seg-pf/saved_model.pb
+  String get savedModel => 'assets/models/yoloe-26n-seg-pf/saved_model.pb';
+
+  /// File path: assets/models/yoloe-26n-seg-pf/yoloe-26n-seg-pf.onnx2tf-fixed_float16.tflite
+  String get yoloe26nSegPfOnnx2tfFixedFloat16 =>
+      'assets/models/yoloe-26n-seg-pf/yoloe-26n-seg-pf.onnx2tf-fixed_float16.tflite';
+
+  /// File path: assets/models/yoloe-26n-seg-pf/yoloe-26n-seg-pf.onnx2tf-fixed_float32.tflite
+  String get yoloe26nSegPfOnnx2tfFixedFloat32 =>
+      'assets/models/yoloe-26n-seg-pf/yoloe-26n-seg-pf.onnx2tf-fixed_float32.tflite';
+
+  /// List of all assets
+  List<String> get values => [
+    fingerprint,
+    labels,
+    savedModel,
+    yoloe26nSegPfOnnx2tfFixedFloat16,
+    yoloe26nSegPfOnnx2tfFixedFloat32,
+  ];
+}
+
 class Assets {
   const Assets._();
 
@@ -493,6 +538,7 @@ class Assets {
   static const $AssetsImagesGen images = $AssetsImagesGen();
   static const $AssetsIntegrationAppLogosGen integrationAppLogos =
       $AssetsIntegrationAppLogosGen();
+  static const $AssetsModelsGen models = $AssetsModelsGen();
   static const String shorebird = 'shorebird.yaml';
 
   /// List of all assets

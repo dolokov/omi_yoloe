@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:omi/utils/platform/platform_manager.dart';
 import 'package:flutter/material.dart';
 
@@ -7,6 +9,7 @@ import 'package:omi/backend/preferences.dart';
 import 'package:omi/app_globals.dart';
 import 'package:omi/providers/base_provider.dart';
 import 'package:omi/services/agent_chat_service.dart';
+import 'package:omi/services/local_vision/object_announcement_service.dart';
 import 'package:omi/utils/alerts/app_snackbar.dart';
 import 'package:omi/utils/l10n_extensions.dart';
 import 'package:omi/utils/logger.dart';
@@ -40,6 +43,23 @@ class DeveloperModeProvider extends BaseProvider {
 
   // VAD Gate (experimental)
   bool vadGateEnabled = false;
+
+  // Local YOLOE object announcements (experimental)
+  bool localYoloeEnabled = true;
+  bool localYoloeVoiceEnabled = true;
+  bool localYoloeInterruptSpeech = true;
+  double localYoloeSpeechRate = 0.5;
+  double localYoloeMinSecondsBetweenAnnouncements = 2.0;
+  double localYoloeObjectAbsenceSeconds = 8.0;
+  double localYoloeRepeatCooldownSeconds = 45.0;
+  int localYoloeMaxObjectsPerAnnouncement = 3;
+  double localYoloeConfidenceThreshold = 0.4;
+  int localYoloeMaxObjectsPerFrame = 20;
+  double localYoloeMaxFps = 0.0;
+  bool localYoloeAdaptiveThrottlingEnabled = true;
+  String localYoloeAnnouncementMode = 'allObjects';
+  double localYoloeHandObjectIouThreshold = 0.10;
+  String localYoloeDetectorImplementation = 'yoloe';
 
   // Claude Agent (experimental)
   bool claudeAgentEnabled = false;
@@ -120,6 +140,21 @@ class DeveloperModeProvider extends BaseProvider {
     showTasksEnabled = SharedPreferencesUtil().showTasksEnabled;
     showPhoneCallButton = SharedPreferencesUtil().showPhoneCallButton;
     vadGateEnabled = SharedPreferencesUtil().vadGateEnabled;
+    localYoloeEnabled = SharedPreferencesUtil().localYoloeEnabled;
+    localYoloeVoiceEnabled = SharedPreferencesUtil().localYoloeVoiceEnabled;
+    localYoloeInterruptSpeech = SharedPreferencesUtil().localYoloeInterruptSpeech;
+    localYoloeSpeechRate = SharedPreferencesUtil().localYoloeSpeechRate;
+    localYoloeMinSecondsBetweenAnnouncements = SharedPreferencesUtil().localYoloeMinSecondsBetweenAnnouncements;
+    localYoloeObjectAbsenceSeconds = SharedPreferencesUtil().localYoloeObjectAbsenceSeconds;
+    localYoloeRepeatCooldownSeconds = SharedPreferencesUtil().localYoloeRepeatCooldownSeconds;
+    localYoloeMaxObjectsPerAnnouncement = SharedPreferencesUtil().localYoloeMaxObjectsPerAnnouncement;
+    localYoloeConfidenceThreshold = SharedPreferencesUtil().localYoloeConfidenceThreshold;
+    localYoloeMaxObjectsPerFrame = SharedPreferencesUtil().localYoloeMaxObjectsPerFrame;
+    localYoloeMaxFps = SharedPreferencesUtil().localYoloeMaxFps;
+    localYoloeAdaptiveThrottlingEnabled = SharedPreferencesUtil().localYoloeAdaptiveThrottlingEnabled;
+    localYoloeAnnouncementMode = SharedPreferencesUtil().localYoloeAnnouncementMode;
+    localYoloeHandObjectIouThreshold = SharedPreferencesUtil().localYoloeHandObjectIouThreshold;
+    localYoloeDetectorImplementation = SharedPreferencesUtil().localYoloeDetectorImplementation;
     claudeAgentEnabled = SharedPreferencesUtil().claudeAgentEnabled;
     conversationEventsToggled = SharedPreferencesUtil().conversationEventsToggled;
     transcriptsToggled = SharedPreferencesUtil().transcriptsToggled;
@@ -285,6 +320,100 @@ class DeveloperModeProvider extends BaseProvider {
   void onVadGateChanged(bool value) {
     vadGateEnabled = value;
     SharedPreferencesUtil().vadGateEnabled = value;
+    notifyListeners();
+  }
+
+  void onLocalYoloeChanged(bool value) {
+    localYoloeEnabled = value;
+    SharedPreferencesUtil().localYoloeEnabled = value;
+    if (!value) unawaited(ObjectAnnouncementService.instance.stop());
+    Logger.debug('Local YOLOE object announcements ${value ? 'enabled' : 'disabled'}');
+    notifyListeners();
+  }
+
+  void onLocalYoloeVoiceChanged(bool value) {
+    localYoloeVoiceEnabled = value;
+    SharedPreferencesUtil().localYoloeVoiceEnabled = value;
+    if (!value) unawaited(ObjectAnnouncementService.instance.stop());
+    notifyListeners();
+  }
+
+  void onLocalYoloeInterruptSpeechChanged(bool value) {
+    localYoloeInterruptSpeech = value;
+    SharedPreferencesUtil().localYoloeInterruptSpeech = value;
+    notifyListeners();
+  }
+
+  void onLocalYoloeSpeechRateChanged(double value) {
+    localYoloeSpeechRate = value;
+    SharedPreferencesUtil().localYoloeSpeechRate = value;
+    notifyListeners();
+  }
+
+  void onLocalYoloeMinSecondsBetweenAnnouncementsChanged(double value) {
+    localYoloeMinSecondsBetweenAnnouncements = value;
+    SharedPreferencesUtil().localYoloeMinSecondsBetweenAnnouncements = value;
+    notifyListeners();
+  }
+
+  void onLocalYoloeObjectAbsenceSecondsChanged(double value) {
+    localYoloeObjectAbsenceSeconds = value;
+    SharedPreferencesUtil().localYoloeObjectAbsenceSeconds = value;
+    notifyListeners();
+  }
+
+  void onLocalYoloeRepeatCooldownSecondsChanged(double value) {
+    localYoloeRepeatCooldownSeconds = value;
+    SharedPreferencesUtil().localYoloeRepeatCooldownSeconds = value;
+    notifyListeners();
+  }
+
+  void onLocalYoloeMaxObjectsPerAnnouncementChanged(double value) {
+    localYoloeMaxObjectsPerAnnouncement = value.round();
+    SharedPreferencesUtil().localYoloeMaxObjectsPerAnnouncement = localYoloeMaxObjectsPerAnnouncement;
+    notifyListeners();
+  }
+
+  void onLocalYoloeConfidenceThresholdChanged(double value) {
+    localYoloeConfidenceThreshold = value;
+    SharedPreferencesUtil().localYoloeConfidenceThreshold = value;
+    notifyListeners();
+  }
+
+  void onLocalYoloeMaxObjectsPerFrameChanged(double value) {
+    localYoloeMaxObjectsPerFrame = value.round();
+    SharedPreferencesUtil().localYoloeMaxObjectsPerFrame = localYoloeMaxObjectsPerFrame;
+    notifyListeners();
+  }
+
+  void onLocalYoloeMaxFpsChanged(double value) {
+    localYoloeMaxFps = value;
+    SharedPreferencesUtil().localYoloeMaxFps = value;
+    notifyListeners();
+  }
+
+  void onLocalYoloeAdaptiveThrottlingChanged(bool value) {
+    localYoloeAdaptiveThrottlingEnabled = value;
+    SharedPreferencesUtil().localYoloeAdaptiveThrottlingEnabled = value;
+    notifyListeners();
+  }
+
+  void onLocalYoloeAnnouncementModeChanged(String value) {
+    localYoloeAnnouncementMode = value;
+    SharedPreferencesUtil().localYoloeAnnouncementMode = value;
+    notifyListeners();
+  }
+
+  void onLocalYoloeHandObjectIouThresholdChanged(double value) {
+    localYoloeHandObjectIouThreshold = value;
+    SharedPreferencesUtil().localYoloeHandObjectIouThreshold = value;
+    notifyListeners();
+  }
+
+  void onLocalYoloeDetectorImplementationChanged(String value) {
+    localYoloeDetectorImplementation = value;
+    SharedPreferencesUtil().localYoloeDetectorImplementation = value;
+    Logger.debug('Local YOLOE detector implementation set to $value');
     notifyListeners();
   }
 

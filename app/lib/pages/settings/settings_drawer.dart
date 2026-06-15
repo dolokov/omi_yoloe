@@ -9,6 +9,7 @@ import 'package:omi/core/app_shell.dart';
 import 'package:omi/services/auth_service.dart';
 import 'package:omi/pages/settings/developer.dart';
 import 'package:omi/pages/settings/notifications_settings_page.dart';
+import 'package:omi/pages/settings/object_announcements_settings_page.dart';
 import 'package:omi/pages/settings/permissions_page.dart';
 import 'package:omi/pages/settings/profile.dart';
 import 'package:omi/pages/memories/page.dart';
@@ -152,7 +153,7 @@ class _SettingsDrawerState extends State<SettingsDrawer> {
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                         decoration: BoxDecoration(
-                          color: Colors.orange.withOpacity(0.2),
+                          color: Colors.orange.withValues(alpha: 0.2),
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Text(
@@ -171,7 +172,7 @@ class _SettingsDrawerState extends State<SettingsDrawer> {
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                         decoration: BoxDecoration(
-                          color: Colors.green.withOpacity(0.2),
+                          color: Colors.green.withValues(alpha: 0.2),
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Text(
@@ -260,7 +261,9 @@ class _SettingsDrawerState extends State<SettingsDrawer> {
               decoration: BoxDecoration(
                 color: Colors.black87,
                 borderRadius: BorderRadius.circular(8),
-                boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.2), blurRadius: 4, offset: const Offset(0, 2))],
+                boxShadow: [
+                  BoxShadow(color: Colors.black.withValues(alpha: 0.2), blurRadius: 4, offset: const Offset(0, 2))
+                ],
               ),
               child: Text(
                 context.l10n.appAndDeviceCopied,
@@ -460,12 +463,12 @@ class _SettingsDrawerState extends State<SettingsDrawer> {
     final filtered = allItems.where((item) => item.title.toLowerCase().contains(query)).toList();
 
     if (filtered.isEmpty) {
-      return Center(
+      return const Center(
         child: Padding(
-          padding: const EdgeInsets.only(top: 48),
+          padding: EdgeInsets.only(top: 48),
           child: Text(
             'No results',
-            style: const TextStyle(color: Color(0xFF8E8E93), fontSize: 16, fontWeight: FontWeight.w400),
+            style: TextStyle(color: Color(0xFF8E8E93), fontSize: 16, fontWeight: FontWeight.w400),
           ),
         ),
       );
@@ -526,7 +529,7 @@ class _SettingsDrawerState extends State<SettingsDrawer> {
                           ? Container(
                               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                               decoration: BoxDecoration(
-                                color: Colors.amber.withOpacity(0.2),
+                                color: Colors.amber.withValues(alpha: 0.2),
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: Row(
@@ -561,6 +564,16 @@ class _SettingsDrawerState extends State<SettingsDrawer> {
                     final page =
                         SharedPreferencesUtil().deviceSupportsMultiFileSync ? const AutoSyncPage() : const SyncPage();
                     Navigator.of(context).push(MaterialPageRoute(builder: (context) => page));
+                  },
+                ),
+                const Divider(height: 1, color: Color(0xFF3C3C43)),
+                _buildSettingsItem(
+                  title: 'Object announcements',
+                  icon: const FaIcon(FontAwesomeIcons.eye, color: Color(0xFF8E8E93), size: 20),
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => const ObjectAnnouncementsSettingsPage()),
+                    );
                   },
                 ),
                 Consumer<DeviceProvider>(

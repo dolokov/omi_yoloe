@@ -825,6 +825,46 @@ class _ActionItemsPageState extends State<ActionItemsPage> with AutomaticKeepAli
     );
   }
 
+  Widget _buildGoalDropTile(Goal? goal) {
+    return DragTarget<ActionItemWithMetadata>(
+      onWillAcceptWithDetails: (details) => goal != null,
+      onAcceptWithDetails: (details) {
+        if (goal == null) return;
+        PlatformManager.instance.analytics.taskDraggedToGoal(taskId: details.data.id, goalId: goal.id);
+        _attachTaskToGoal(details.data.id, goal.id);
+      },
+      builder: (context, candidateData, rejectedData) {
+        final isHovering = candidateData.isNotEmpty && goal != null;
+        return AnimatedContainer(
+          duration: const Duration(milliseconds: 150),
+          height: 64,
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+          decoration: BoxDecoration(
+            color: Colors.white.withValues(alpha: goal == null ? 0.04 : 0.08),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: isHovering ? Colors.white.withValues(alpha: 0.5) : Colors.white.withValues(alpha: 0.08),
+              width: 1,
+            ),
+          ),
+          child: Center(
+            child: Text(
+              goal?.title ?? '',
+              textAlign: TextAlign.center,
+              maxLines: 3,
+              style: TextStyle(
+                color: goal == null ? Colors.white.withValues(alpha: 0.2) : Colors.white.withValues(alpha: 0.9),
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+                height: 1.2,
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   Widget _buildCategorySection({
     required TaskCategory category,
     required List<ActionItemWithMetadata> items,
@@ -1716,7 +1756,8 @@ class _GoalCreateSheetState extends State<_GoalCreateSheet> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(context.l10n.goalTitle, style: TextStyle(color: Colors.white.withOpacity(0.5), fontSize: 12)),
+                  Text(context.l10n.goalTitle,
+                      style: TextStyle(color: Colors.white.withValues(alpha: 0.5), fontSize: 12)),
                   const SizedBox(height: 8),
                   TextField(
                     controller: titleController,
@@ -1724,7 +1765,7 @@ class _GoalCreateSheetState extends State<_GoalCreateSheet> {
                     style: const TextStyle(color: Colors.white, fontSize: 16),
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: Colors.white.withOpacity(0.08),
+                      fillColor: Colors.white.withValues(alpha: 0.08),
                       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                       border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
                     ),
@@ -1742,7 +1783,7 @@ class _GoalCreateSheetState extends State<_GoalCreateSheet> {
                       children: [
                         Text(
                           context.l10n.current,
-                          style: TextStyle(color: Colors.white.withOpacity(0.5), fontSize: 12),
+                          style: TextStyle(color: Colors.white.withValues(alpha: 0.5), fontSize: 12),
                         ),
                         const SizedBox(height: 8),
                         TextField(
@@ -1751,7 +1792,7 @@ class _GoalCreateSheetState extends State<_GoalCreateSheet> {
                           style: const TextStyle(color: Colors.white, fontSize: 16),
                           decoration: InputDecoration(
                             filled: true,
-                            fillColor: Colors.white.withOpacity(0.08),
+                            fillColor: Colors.white.withValues(alpha: 0.08),
                             contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
@@ -1767,7 +1808,8 @@ class _GoalCreateSheetState extends State<_GoalCreateSheet> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(context.l10n.target, style: TextStyle(color: Colors.white.withOpacity(0.5), fontSize: 12)),
+                        Text(context.l10n.target,
+                            style: TextStyle(color: Colors.white.withValues(alpha: 0.5), fontSize: 12)),
                         const SizedBox(height: 8),
                         TextField(
                           controller: targetController,
@@ -1775,7 +1817,7 @@ class _GoalCreateSheetState extends State<_GoalCreateSheet> {
                           style: const TextStyle(color: Colors.white, fontSize: 16),
                           decoration: InputDecoration(
                             filled: true,
-                            fillColor: Colors.white.withOpacity(0.08),
+                            fillColor: Colors.white.withValues(alpha: 0.08),
                             contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
@@ -1886,7 +1928,8 @@ class _GoalEditSheetState extends State<_GoalEditSheet> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(context.l10n.goalTitle, style: TextStyle(color: Colors.white.withOpacity(0.5), fontSize: 12)),
+                  Text(context.l10n.goalTitle,
+                      style: TextStyle(color: Colors.white.withValues(alpha: 0.5), fontSize: 12)),
                   const SizedBox(height: 8),
                   TextField(
                     controller: titleController,
@@ -1894,7 +1937,7 @@ class _GoalEditSheetState extends State<_GoalEditSheet> {
                     style: const TextStyle(color: Colors.white, fontSize: 16),
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: Colors.white.withOpacity(0.08),
+                      fillColor: Colors.white.withValues(alpha: 0.08),
                       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                       border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
                     ),
@@ -1912,7 +1955,7 @@ class _GoalEditSheetState extends State<_GoalEditSheet> {
                       children: [
                         Text(
                           context.l10n.current,
-                          style: TextStyle(color: Colors.white.withOpacity(0.5), fontSize: 12),
+                          style: TextStyle(color: Colors.white.withValues(alpha: 0.5), fontSize: 12),
                         ),
                         const SizedBox(height: 8),
                         TextField(
@@ -1921,7 +1964,7 @@ class _GoalEditSheetState extends State<_GoalEditSheet> {
                           style: const TextStyle(color: Colors.white, fontSize: 16),
                           decoration: InputDecoration(
                             filled: true,
-                            fillColor: Colors.white.withOpacity(0.08),
+                            fillColor: Colors.white.withValues(alpha: 0.08),
                             contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
@@ -1937,7 +1980,8 @@ class _GoalEditSheetState extends State<_GoalEditSheet> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(context.l10n.target, style: TextStyle(color: Colors.white.withOpacity(0.5), fontSize: 12)),
+                        Text(context.l10n.target,
+                            style: TextStyle(color: Colors.white.withValues(alpha: 0.5), fontSize: 12)),
                         const SizedBox(height: 8),
                         TextField(
                           controller: targetController,
@@ -1945,7 +1989,7 @@ class _GoalEditSheetState extends State<_GoalEditSheet> {
                           style: const TextStyle(color: Colors.white, fontSize: 16),
                           decoration: InputDecoration(
                             filled: true,
-                            fillColor: Colors.white.withOpacity(0.08),
+                            fillColor: Colors.white.withValues(alpha: 0.08),
                             contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
@@ -2053,7 +2097,7 @@ class _CircularProgressPainter extends CustomPainter {
 
     // Draw background circle (empty part)
     final bgPaint = Paint()
-      ..color = color.withOpacity(0.2)
+      ..color = color.withValues(alpha: 0.2)
       ..style = PaintingStyle.fill;
     canvas.drawCircle(center, radius, bgPaint);
 

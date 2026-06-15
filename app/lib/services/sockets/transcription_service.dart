@@ -9,7 +9,6 @@ import 'package:omi/backend/schema/transcript_segment.dart';
 import 'package:omi/env/env.dart';
 import 'package:omi/models/custom_stt_config.dart';
 import 'package:omi/models/stt_provider.dart';
-import 'package:omi/services/notifications.dart';
 import 'package:omi/services/sockets/on_device_apple_provider.dart';
 import 'package:omi/services/sockets/on_device_whisper_provider.dart';
 import 'package:omi/services/sockets/pure_socket.dart';
@@ -124,7 +123,7 @@ class TranscriptSegmentSocketService implements IPureSocketListener {
     }
 
     String url =
-        Env.apiBaseUrl!.replaceFirst('https://', 'wss://').replaceFirst('http://', 'ws://') + 'v4/listen$params';
+        '${Env.apiBaseUrl!.replaceFirst('https://', 'wss://').replaceFirst('http://', 'ws://')}v4/listen$params';
 
     _socket = PureSocket(url);
     _socket.setListener(this);

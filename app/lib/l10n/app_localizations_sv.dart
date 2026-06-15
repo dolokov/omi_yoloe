@@ -429,12 +429,6 @@ class AppLocalizationsSv extends AppLocalizations {
   String get offlineSync => 'Offlinesynkronisering';
 
   @override
-  String get autoSync => 'Automatisk synkronisering';
-
-  @override
-  String get autoSyncDescription => 'Synkronisera offlineinspelningar automatiskt när din enhet ansluter';
-
-  @override
   String get deviceSettings => 'Enhetsinställningar';
 
   @override
@@ -9297,6 +9291,168 @@ class AppLocalizationsSv extends AppLocalizations {
 
   @override
   String get invalidPromotionCode => 'Ogiltig kampanjkod.';
+
+  @override
+  String get localYoloeObjectAnnouncements => 'Lokala YOLOE-objektmeddelanden';
+
+  @override
+  String get localYoloeObjectAnnouncementsDescription =>
+      'Experimentellt: bearbetar Omi Glass-bilder på enheten och hoppar över bilduppladdningar till LLM.';
+
+  @override
+  String get objectAnnouncementsSettingsTitle => 'Object announcements';
+
+  @override
+  String get objectAnnouncementsSettingsSubtitle => 'Hear simple spoken updates when Omi Glass sees new objects.';
+
+  @override
+  String get objectAnnouncementsMainToggleTitle => 'Local object announcements';
+
+  @override
+  String get objectAnnouncementsMainToggleSubtitle => 'Runs object detection on this phone.';
+
+  @override
+  String get objectAnnouncementsModeSectionTitle => 'Mode';
+
+  @override
+  String get objectAnnouncementsAllObjectsModeTitle => 'All new objects';
+
+  @override
+  String get objectAnnouncementsAllObjectsModeSubtitle => 'Announce new objects in the scene.';
+
+  @override
+  String get objectAnnouncementsHeldObjectsModeTitle => 'Objects in my hand';
+
+  @override
+  String get objectAnnouncementsHeldObjectsModeSubtitle => 'Quieter. Requires hand detection.';
+
+  @override
+  String get objectAnnouncementsVoiceTitle => 'Voice';
+
+  @override
+  String get objectAnnouncementsVoiceOnSubtitle => 'Speak announcements out loud.';
+
+  @override
+  String get objectAnnouncementsVoiceOffSubtitle => 'Muted. Detection can still run.';
+
+  @override
+  String get objectAnnouncementsTestVoiceButton => 'Test voice';
+
+  @override
+  String get objectAnnouncementsTestVoiceMessage => 'Local object announcements are working.';
+
+  @override
+  String get objectAnnouncementsSpeechRateTitle => 'Speech rate';
+
+  @override
+  String get objectAnnouncementsQuietTimeTitle => 'Quiet time after speech';
+
+  @override
+  String get objectAnnouncementsPrivacyCopy =>
+      'Privacy: in local mode, Omi Glass images are processed on this phone and are not sent to Omi’s vision LLM.';
+
+  @override
+  String get objectAnnouncementsAdvancedTitle => 'Advanced';
+
+  @override
+  String get objectAnnouncementsAdvancedSubtitle => 'Detector and filtering controls';
+
+  @override
+  String get objectAnnouncementsInterruptSpeechTitle => 'Interrupt current speech';
+
+  @override
+  String get objectAnnouncementsInterruptSpeechSubtitle => 'New announcements replace the current one.';
+
+  @override
+  String get objectAnnouncementsDetectorTitle => 'Detector';
+
+  @override
+  String get objectAnnouncementsMaxObjectsSpokenTitle => 'Max objects spoken';
+
+  @override
+  String get objectAnnouncementsConfidenceThresholdTitle => 'Confidence threshold';
+
+  @override
+  String get objectAnnouncementsHandMatchThresholdTitle => 'Hand match threshold';
+
+  @override
+  String get objectAnnouncementsAdaptiveThrottlingTitle => 'Adaptive throttling';
+
+  @override
+  String get objectAnnouncementsAdaptiveThrottlingSubtitle => 'Slow detection when inference gets heavy.';
+
+  @override
+  String get objectAnnouncementsDetectTab => 'Detect';
+
+  @override
+  String get objectAnnouncementsDeviceName => 'Omi Glass';
+
+  @override
+  String get objectAnnouncementsConnectDeviceSubtitle => 'Connect Omi Glass to start local object announcements.';
+
+  @override
+  String get objectAnnouncementsReconnectDeviceSubtitle => 'Tap to reconnect Omi Glass.';
+
+  @override
+  String get objectAnnouncementsDeviceFrameSubtitle => 'Receiving camera frames when available.';
+
+  @override
+  String get objectAnnouncementsOffSubtitle => 'Off. Detection frames will not be announced.';
+
+  @override
+  String get objectAnnouncementsDetectingLocally => 'Detecting objects locally…';
+
+  @override
+  String get objectAnnouncementsFrameQueued => 'New frame queued. Keeping the freshest image only.';
+
+  @override
+  String objectAnnouncementsDetectionCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 's',
+      one: '',
+    );
+    return 'Detected $count object$_temp0.';
+  }
+
+  @override
+  String get objectAnnouncementsNoNewObjects => 'No new objects to announce yet.';
+
+  @override
+  String objectAnnouncementsSpeakingNow(String phrase) {
+    return 'Speaking now: $phrase';
+  }
+
+  @override
+  String get objectAnnouncementsLatestDetectionsTitle => 'Latest detections';
+
+  @override
+  String get objectAnnouncementsNoDetections => 'No objects detected yet. Connect Omi Glass and keep announcements on.';
+
+  @override
+  String get objectAnnouncementsSpokenStatus => 'spoken';
+
+  @override
+  String get objectAnnouncementsHandAnchorStatus => 'hand anchor';
+
+  @override
+  String get objectAnnouncementsSeenStatus => 'seen';
+
+  @override
+  String get objectAnnouncementsFramesMetric => 'Frames';
+
+  @override
+  String get objectAnnouncementsDroppedMetric => 'Dropped';
+
+  @override
+  String get objectAnnouncementsLatencyMetric => 'Latency';
+
+  @override
+  String get autoSync => 'Automatisk synkronisering';
+
+  @override
+  String get autoSyncDescription => 'Synkronisera offlineinspelningar automatiskt när din enhet ansluter';
 
   @override
   String get backgroundModeTitle => 'Bakgrundsläge';

@@ -248,7 +248,7 @@ class ChatPageState extends State<ChatPage> with AutomaticKeepAliveClientMixin {
                                     return Theme(
                                       data: Theme.of(context).copyWith(
                                         textSelectionTheme: TextSelectionThemeData(
-                                          selectionColor: Colors.white.withOpacity(0.3),
+                                          selectionColor: Colors.white.withValues(alpha: 0.3),
                                           selectionHandleColor: Colors.blue,
                                         ),
                                       ),
@@ -392,7 +392,7 @@ class ChatPageState extends State<ChatPage> with AutomaticKeepAliveClientMixin {
                                             if (provider.isFileUploading(provider.selectedFiles[idx].path))
                                               Container(
                                                 decoration: BoxDecoration(
-                                                  color: Colors.black.withOpacity(0.5),
+                                                  color: Colors.black.withValues(alpha: 0.5),
                                                   borderRadius: BorderRadius.circular(16),
                                                 ),
                                                 child: const Center(
@@ -421,7 +421,7 @@ class ChatPageState extends State<ChatPage> with AutomaticKeepAliveClientMixin {
                                                     color: Colors.white,
                                                     borderRadius: BorderRadius.circular(10),
                                                   ),
-                                                  child: const Icon(
+                                                  child: const FaIcon(
                                                     FontAwesomeIcons.xmark,
                                                     size: 10,
                                                     color: Colors.black,
@@ -580,7 +580,7 @@ class ChatPageState extends State<ChatPage> with AutomaticKeepAliveClientMixin {
                                                         : Theme(
                                                             data: Theme.of(context).copyWith(
                                                               textSelectionTheme: TextSelectionThemeData(
-                                                                selectionColor: Colors.grey.withOpacity(0.4),
+                                                                selectionColor: Colors.grey.withValues(alpha: 0.4),
                                                                 selectionHandleColor: Colors.white,
                                                               ),
                                                             ),
@@ -1154,7 +1154,7 @@ class ChatPageState extends State<ChatPage> with AutomaticKeepAliveClientMixin {
         width: 36,
         height: 36,
         margin: const EdgeInsets.all(8),
-        decoration: BoxDecoration(color: Colors.grey.withOpacity(0.3), shape: BoxShape.circle),
+        decoration: BoxDecoration(color: Colors.grey.withValues(alpha: 0.3), shape: BoxShape.circle),
         child: IconButton(
           padding: EdgeInsets.zero,
           icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white, size: 18),
@@ -1175,7 +1175,7 @@ class ChatPageState extends State<ChatPage> with AutomaticKeepAliveClientMixin {
           width: 36,
           height: 36,
           margin: const EdgeInsets.only(right: 8),
-          decoration: BoxDecoration(color: Colors.grey.withOpacity(0.3), shape: BoxShape.circle),
+          decoration: BoxDecoration(color: Colors.grey.withValues(alpha: 0.3), shape: BoxShape.circle),
           child: IconButton(
             padding: EdgeInsets.zero,
             icon: const Icon(Icons.extension, color: Colors.white, size: 18),
@@ -1445,7 +1445,7 @@ class ChatPageState extends State<ChatPage> with AutomaticKeepAliveClientMixin {
                 )
               : null,
       selected: isSelected,
-      selectedTileColor: Colors.white.withOpacity(0.1),
+      selectedTileColor: Colors.white.withValues(alpha: 0.1),
       onTap: onTap,
     );
   }
@@ -1483,6 +1483,117 @@ class ChatPageState extends State<ChatPage> with AutomaticKeepAliveClientMixin {
         children: [Image.asset(Assets.images.herologo.path, height: 16, width: 16)],
       ),
     );
+  }
+
+  void _showIOSStyleActionSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return Container(
+          margin: const EdgeInsets.all(10),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Main options container
+              Container(
+                decoration: BoxDecoration(
+                  color: const Color(0xFF1C1C1E).withValues(alpha: 0.95),
+                  borderRadius: BorderRadius.circular(13),
+                ),
+                child: Column(
+                  children: [
+                    _buildIOSActionItem(
+                      title: context.l10n.takePhoto,
+                      icon: Icons.camera_alt,
+                      onTap: () {
+                        HapticFeedback.selectionClick();
+                        Navigator.pop(context);
+                        if (mounted) {
+                          this.context.read<MessageProvider>().captureImage();
+                        }
+                      },
+                      isFirst: true,
+                    ),
+                    _buildDivider(),
+                    _buildIOSActionItem(
+                      title: context.l10n.photoLibrary,
+                      icon: Icons.photo_library,
+                      onTap: () {
+                        HapticFeedback.selectionClick();
+                        Navigator.pop(context);
+                        if (mounted) {
+                          this.context.read<MessageProvider>().selectImage();
+                        }
+                      },
+                    ),
+                    _buildDivider(),
+                    _buildIOSActionItem(
+                      title: context.l10n.chooseFile,
+                      icon: Icons.folder,
+                      onTap: () {
+                        HapticFeedback.selectionClick();
+                        Navigator.pop(context);
+                        if (mounted) {
+                          this.context.read<MessageProvider>().selectFile();
+                        }
+                      },
+                      isLast: true,
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: MediaQuery.of(context).padding.bottom + 10),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildIOSActionItem({
+    required String title,
+    required VoidCallback onTap,
+    IconData? icon,
+    bool isFirst = false,
+    bool isLast = false,
+    bool isCancel = false,
+  }) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.vertical(
+          top: isFirst ? const Radius.circular(13) : Radius.zero,
+          bottom: isLast ? const Radius.circular(13) : Radius.zero,
+        ),
+        child: Container(
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+          child: Row(
+            children: [
+              Expanded(
+                child: Text(
+                  title,
+                  style: TextStyle(
+                    color: isCancel ? Colors.red : Colors.blue,
+                    fontSize: 20,
+                    fontWeight: isCancel ? FontWeight.w600 : FontWeight.w400,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              if (icon != null && !isCancel) Icon(icon, color: Colors.grey.shade600, size: 24),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDivider() {
+    return Container(height: 0.5, color: Colors.grey.shade700, margin: const EdgeInsets.symmetric(horizontal: 20));
   }
 }
 

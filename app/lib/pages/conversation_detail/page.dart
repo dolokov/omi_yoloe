@@ -1,5 +1,4 @@
 import 'package:omi/utils/platform/platform_manager.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
@@ -90,7 +89,7 @@ class _ConversationDetailPageState extends State<ConversationDetailPage> with Ti
   final FocusNode _searchFocusNode = FocusNode();
   int _currentSearchIndex = 0;
   int _totalSearchResults = 0;
-  List<int> _searchResultPositions = []; // Track positions of search results
+  final List<int> _searchResultPositions = []; // Track positions of search results
 
   // TODO: use later for onboarding transcript segment edits
   // late AnimationController _animationController;
@@ -498,7 +497,7 @@ class _ConversationDetailPageState extends State<ConversationDetailPage> with Ti
       isDismissible: false,
       enableDrag: false,
       backgroundColor: Colors.transparent,
-      barrierColor: Colors.black.withOpacity(0.5),
+      barrierColor: Colors.black.withValues(alpha: 0.5),
       builder: (context) => StatefulBuilder(
         builder: (context, setState) {
           updateSheet = setState;
@@ -675,7 +674,7 @@ class _ConversationDetailPageState extends State<ConversationDetailPage> with Ti
               width: 36,
               height: 36,
               margin: const EdgeInsets.all(8),
-              decoration: BoxDecoration(color: Colors.grey.withOpacity(0.3), shape: BoxShape.circle),
+              decoration: BoxDecoration(color: Colors.grey.withValues(alpha: 0.3), shape: BoxShape.circle),
               child: IconButton(
                 padding: EdgeInsets.zero,
                 onPressed: () {
@@ -790,7 +789,7 @@ class _ConversationDetailPageState extends State<ConversationDetailPage> with Ti
                           width: 36,
                           height: 36,
                           margin: const EdgeInsets.only(right: 8),
-                          decoration: BoxDecoration(color: Colors.grey.withOpacity(0.3), shape: BoxShape.circle),
+                          decoration: BoxDecoration(color: Colors.grey.withValues(alpha: 0.3), shape: BoxShape.circle),
                           child: IconButton(
                             padding: EdgeInsets.zero,
                             onPressed: _isSharing
@@ -859,7 +858,7 @@ class _ConversationDetailPageState extends State<ConversationDetailPage> with Ti
                             height: 36,
                             margin: const EdgeInsets.only(right: 8),
                             decoration: BoxDecoration(
-                              color: _isSearching ? Colors.deepPurple.withOpacity(0.8) : Colors.grey.withOpacity(0.3),
+                              color: _isSearching ? Colors.deepPurple.withValues(alpha: 0.8) : Colors.grey.withValues(alpha: 0.3),
                               shape: BoxShape.circle,
                             ),
                             child: IconButton(
@@ -892,17 +891,17 @@ class _ConversationDetailPageState extends State<ConversationDetailPage> with Ti
                             itemBuilder: (context) => [
                               PullDownMenuItem(
                                 title: context.l10n.copyTranscript,
-                                iconWidget: FaIcon(FontAwesomeIcons.copy, size: 16),
+                                iconWidget: const FaIcon(FontAwesomeIcons.copy, size: 16),
                                 onTap: () => _handleMenuSelection(context, 'copy_transcript', provider),
                               ),
                               PullDownMenuItem(
                                 title: context.l10n.copySummary,
-                                iconWidget: FaIcon(FontAwesomeIcons.clone, size: 16),
+                                iconWidget: const FaIcon(FontAwesomeIcons.clone, size: 16),
                                 onTap: () => _handleMenuSelection(context, 'copy_summary', provider),
                               ),
                               PullDownMenuItem(
                                 title: context.l10n.copyConversationId,
-                                iconWidget: FaIcon(FontAwesomeIcons.clipboard, size: 16),
+                                iconWidget: const FaIcon(FontAwesomeIcons.clipboard, size: 16),
                                 onTap: () => _handleMenuSelection(context, 'copy_conversation_id', provider),
                               ),
                               if (provider.conversation.hasAudio())
@@ -934,18 +933,18 @@ class _ConversationDetailPageState extends State<ConversationDetailPage> with Ti
                                 ),
                               PullDownMenuItem(
                                 title: context.l10n.testPrompt,
-                                iconWidget: FaIcon(FontAwesomeIcons.commentDots, size: 16),
+                                iconWidget: const FaIcon(FontAwesomeIcons.commentDots, size: 16),
                                 onTap: () => _handleMenuSelection(context, 'test_prompt', provider),
                               ),
                               if (!provider.conversation.discarded)
                                 PullDownMenuItem(
                                   title: context.l10n.reprocessConversation,
-                                  iconWidget: FaIcon(FontAwesomeIcons.arrowsRotate, size: 16),
+                                  iconWidget: const FaIcon(FontAwesomeIcons.arrowsRotate, size: 16),
                                   onTap: () => _handleMenuSelection(context, 'reprocess', provider),
                                 ),
                               PullDownMenuItem(
                                 title: context.l10n.deleteConversation,
-                                iconWidget: FaIcon(FontAwesomeIcons.trashCan, size: 16, color: Colors.red),
+                                iconWidget: const FaIcon(FontAwesomeIcons.trashCan, size: 16, color: Colors.red),
                                 onTap: () => _handleMenuSelection(context, 'delete', provider),
                               ),
                             ],
@@ -960,7 +959,7 @@ class _ConversationDetailPageState extends State<ConversationDetailPage> with Ti
                               child: Container(
                                 width: 36,
                                 height: 36,
-                                decoration: BoxDecoration(color: Colors.grey.withOpacity(0.3), shape: BoxShape.circle),
+                                decoration: BoxDecoration(color: Colors.grey.withValues(alpha: 0.3), shape: BoxShape.circle),
                                 child: const Center(
                                   child: FaIcon(FontAwesomeIcons.ellipsisVertical, size: 16.0, color: Colors.white),
                                 ),
@@ -1059,7 +1058,7 @@ class _ConversationDetailPageState extends State<ConversationDetailPage> with Ti
                                     }
                                   },
                                 ),
-                                ActionItemsTab(),
+                                const ActionItemsTab(),
                               ],
                             );
                           },
@@ -1261,7 +1260,7 @@ class _ConversationDetailPageState extends State<ConversationDetailPage> with Ti
                                 hintStyle: TextStyle(color: Colors.grey[400]),
                                 prefixIcon: const Icon(Icons.search, color: Colors.white70),
                                 suffixIcon: _searchQuery.isNotEmpty
-                                    ? Container(
+                                    ? SizedBox(
                                         width: _searchQuery.isNotEmpty ? 150 : 40,
                                         child: Row(
                                           mainAxisSize: MainAxisSize.min,
@@ -1271,7 +1270,7 @@ class _ConversationDetailPageState extends State<ConversationDetailPage> with Ti
                                               Container(
                                                 padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                                                 decoration: BoxDecoration(
-                                                  color: Colors.grey.withOpacity(0.3),
+                                                  color: Colors.grey.withValues(alpha: 0.3),
                                                   borderRadius: BorderRadius.circular(8),
                                                 ),
                                                 child: Text(
@@ -1345,7 +1344,7 @@ class _ConversationDetailPageState extends State<ConversationDetailPage> with Ti
                                       )
                                     : null,
                                 filled: true,
-                                fillColor: const Color(0xFF1C1C1E).withOpacity(0.95),
+                                fillColor: const Color(0xFF1C1C1E).withValues(alpha: 0.95),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
                                   borderSide: BorderSide.none,

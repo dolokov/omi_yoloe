@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:omi/ui/atoms/omi_badge.dart';
-import 'package:omi/ui/atoms/omi_icon_button.dart';
 import 'package:omi/utils/responsive/responsive_helper.dart';
 
 /// Generic header used inside side-panels, drawers, bottom-sheets, etc.
@@ -12,7 +11,7 @@ import 'package:omi/utils/responsive/responsive_helper.dart';
 /// – Re-uses atom components so visual language is consistent with [OmiSectionHeader].
 class OmiPanelHeader extends StatelessWidget {
   /// Leading icon for the panel (e.g. `FontAwesomeIcons.fileLines`).
-  final IconData icon;
+  final FaIconData icon;
 
   /// Panel title.
   final String title;
@@ -43,19 +42,21 @@ class OmiPanelHeader extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        color: ResponsiveHelper.backgroundSecondary.withOpacity(0.6),
-        border: Border(bottom: BorderSide(color: ResponsiveHelper.backgroundTertiary.withOpacity(0.3), width: 1)),
+        color: ResponsiveHelper.backgroundSecondary.withValues(alpha: 0.6),
+        border: Border(bottom: BorderSide(color: ResponsiveHelper.backgroundTertiary.withValues(alpha: 0.3), width: 1)),
       ),
       child: Row(
         children: [
           // Leading icon bubble – neutral style, non-interactive.
-          OmiIconButton(
-            icon: icon,
-            style: OmiIconButtonStyle.neutral,
-            size: 28,
-            iconSize: 14,
-            borderRadius: 8,
-            onPressed: null,
+          Container(
+            height: 28,
+            width: 28,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: ResponsiveHelper.backgroundTertiary.withValues(alpha: 0.6),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: FaIcon(icon, color: ResponsiveHelper.textSecondary, size: 14),
           ),
           SizedBox(width: spacing),
 
@@ -73,7 +74,7 @@ class OmiPanelHeader extends StatelessWidget {
               color: ResponsiveHelper.textTertiary,
               fontSize: 12,
               borderRadius: 12,
-              backgroundColor: ResponsiveHelper.backgroundTertiary.withOpacity(0.6),
+              backgroundColor: ResponsiveHelper.backgroundTertiary.withValues(alpha: 0.6),
             ),
           ],
 
@@ -81,14 +82,23 @@ class OmiPanelHeader extends StatelessWidget {
           const Spacer(),
           if (action != null) ...[action!, SizedBox(width: spacing)],
           if (onClose != null)
-            OmiIconButton(
-              icon: FontAwesomeIcons.xmark,
-              style: OmiIconButtonStyle.outline,
-              borderOpacity: 0.1,
-              size: 28,
-              iconSize: 12,
-              borderRadius: 8,
-              onPressed: onClose,
+            Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: onClose,
+                borderRadius: BorderRadius.circular(8),
+                child: Container(
+                  height: 28,
+                  width: 28,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: ResponsiveHelper.textSecondary.withValues(alpha: 0.1), width: 1),
+                  ),
+                  child: FaIcon(FontAwesomeIcons.xmark, color: ResponsiveHelper.textSecondary, size: 12),
+                ),
+              ),
             ),
         ],
       ),

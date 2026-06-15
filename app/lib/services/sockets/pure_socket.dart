@@ -58,6 +58,7 @@ class PureSocket implements IPureSocket {
 
   PureSocket(this.url);
 
+  @override
   void setListener(IPureSocketListener listener) {
     _listener = listener;
   }
@@ -68,7 +69,12 @@ class PureSocket implements IPureSocket {
       return false;
     }
 
-    Logger.debug("request wss ${url}");
+    if (shouldSkipCloudNetworkCall(url)) {
+      Logger.debug('LOCAL_ONLY_MODE enabled: skipping cloud WebSocket $url');
+      return false;
+    }
+
+    Logger.debug("request wss $url");
     final headers = await buildHeaders(requireAuthCheck: true);
 
     _channel = IOWebSocketChannel.connect(

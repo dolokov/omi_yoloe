@@ -192,6 +192,69 @@ class SharedPreferencesUtil {
 
   bool get vadGateEnabled => getBool('vadGateEnabled');
 
+  // Local YOLOE object announcements — default on so Omi Glass images stay on-device unless disabled.
+  set localYoloeEnabled(bool value) => saveBool('localYoloeEnabled', value);
+
+  bool get localYoloeEnabled => getBool('localYoloeEnabled', defaultValue: true);
+
+  set localYoloeVoiceEnabled(bool value) => saveBool('localYoloeVoiceEnabled', value);
+
+  bool get localYoloeVoiceEnabled => getBool('localYoloeVoiceEnabled', defaultValue: true);
+
+  set localYoloeSpeechRate(double value) => saveDouble('localYoloeSpeechRate', value);
+
+  double get localYoloeSpeechRate => getDouble('localYoloeSpeechRate', defaultValue: 0.5);
+
+  set localYoloeInterruptSpeech(bool value) => saveBool('localYoloeInterruptSpeech', value);
+
+  bool get localYoloeInterruptSpeech => getBool('localYoloeInterruptSpeech', defaultValue: true);
+
+  set localYoloeMinSecondsBetweenAnnouncements(double value) =>
+      saveDouble('localYoloeMinSecondsBetweenAnnouncements', value);
+
+  double get localYoloeMinSecondsBetweenAnnouncements =>
+      getDouble('localYoloeMinSecondsBetweenAnnouncements', defaultValue: 2.0);
+
+  set localYoloeObjectAbsenceSeconds(double value) => saveDouble('localYoloeObjectAbsenceSeconds', value);
+
+  double get localYoloeObjectAbsenceSeconds => getDouble('localYoloeObjectAbsenceSeconds', defaultValue: 8.0);
+
+  set localYoloeRepeatCooldownSeconds(double value) => saveDouble('localYoloeRepeatCooldownSeconds', value);
+
+  double get localYoloeRepeatCooldownSeconds => getDouble('localYoloeRepeatCooldownSeconds', defaultValue: 45.0);
+
+  set localYoloeMaxObjectsPerAnnouncement(int value) => saveInt('localYoloeMaxObjectsPerAnnouncement', value);
+
+  int get localYoloeMaxObjectsPerAnnouncement => getInt('localYoloeMaxObjectsPerAnnouncement', defaultValue: 3);
+
+  set localYoloeConfidenceThreshold(double value) => saveDouble('localYoloeConfidenceThreshold', value);
+
+  double get localYoloeConfidenceThreshold => getDouble('localYoloeConfidenceThreshold', defaultValue: 0.4);
+
+  set localYoloeMaxObjectsPerFrame(int value) => saveInt('localYoloeMaxObjectsPerFrame', value);
+
+  int get localYoloeMaxObjectsPerFrame => getInt('localYoloeMaxObjectsPerFrame', defaultValue: 20);
+
+  set localYoloeMaxFps(double value) => saveDouble('localYoloeMaxFps', value);
+
+  double get localYoloeMaxFps => getDouble('localYoloeMaxFps', defaultValue: 0.0);
+
+  set localYoloeAdaptiveThrottlingEnabled(bool value) => saveBool('localYoloeAdaptiveThrottlingEnabled', value);
+
+  bool get localYoloeAdaptiveThrottlingEnabled => getBool('localYoloeAdaptiveThrottlingEnabled', defaultValue: true);
+
+  set localYoloeAnnouncementMode(String value) => saveString('localYoloeAnnouncementMode', value);
+
+  String get localYoloeAnnouncementMode => getString('localYoloeAnnouncementMode', defaultValue: 'allObjects');
+
+  set localYoloeHandObjectIouThreshold(double value) => saveDouble('localYoloeHandObjectIouThreshold', value);
+
+  double get localYoloeHandObjectIouThreshold => getDouble('localYoloeHandObjectIouThreshold', defaultValue: 0.10);
+
+  set localYoloeDetectorImplementation(String value) => saveString('localYoloeDetectorImplementation', value);
+
+  String get localYoloeDetectorImplementation => getString('localYoloeDetectorImplementation', defaultValue: 'yoloe');
+
   // Claude Agent — route chat through desktop agent VM (experimental)
   set claudeAgentEnabled(bool value) => saveBool('claudeAgentEnabled', value);
 
